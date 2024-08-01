@@ -27,6 +27,26 @@ function isYemmelOn()
   return false, "the brotherhood is real"
 end
 isYemOn = isYemmelOn
+
+function isDrunk(n)
+  local h, err = http.get("https://lemmmy.pw/bac?u=" .. textutils.urlEncode(n))
+  if err then error("Not ok") end
+  
+  local data = textutils.unserialiseJSON(h.readAll())
+  h.close()
+  return data.drunk
+end
+
+function isYemmelDrunk()
+  return isDrunk("Yemmel")
+end
+isYemDrunk = isYemmelDrunk
+
+function isLemmmyDrunk()
+  return isDrunk("Lemmmy")
+end
+isLemDrunk = isLemmmyDrunk
+
 return {
   githubLimits = githubLimits,
   tps = tps
