@@ -19,6 +19,15 @@ function githubLimits(key)
   return data
 end
 
+function tps()
+  return 0, "The TPS API is not available"
+end
+
+function isYemmelOn()
+  return false, "the brotherhood is real"
+end
+isYemOn = isYemmelOn
 return {
-  githubLimits = githubLimits
+  githubLimits = githubLimits,
+  tps = tps
 }
