@@ -18,3 +18,7 @@ function githubLimits(key)
   h.close()
   return data
 end
+
+return {
+  githubLimits = githubLimits
+}
