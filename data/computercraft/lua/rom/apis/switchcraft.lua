@@ -14,5 +14,7 @@ function githubLimits(key)
     error("Error contacting GitHub API: " .. err)
   end
 
-  return textutils.unserializeJSON(h.readAll())
+  local data = textutils.unserializeJSON(h.readAll())
+  h.close()
+  return data
 end
