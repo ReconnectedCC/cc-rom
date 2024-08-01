@@ -49,5 +49,12 @@ isLemDrunk = isLemmmyDrunk
 
 return {
   githubLimits = githubLimits,
-  tps = tps
+  tps = tps,
+  isYemmelOn = isYemmelOn,
+  isYemOn = isYemmelOn,
+  isDrunk = isDrunk,
+  isYemmelDrunk = isYemmelDrunk,
+  isYemDrunk = isYemmelDrunk,
+  isLemmmyDrunk = isLemmmyDrunk,
+  isLemDrunk = isLemmmyDrunk
 }
