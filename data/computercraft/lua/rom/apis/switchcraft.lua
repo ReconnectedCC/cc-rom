@@ -1,7 +1,7 @@
 local GITHUB_API_URL = "https://api.github.com"
 
 function githubLimits(key)
-  key = key or _G._GIT_API_KEY or "guest"
+  key = key or "guest"
   local headers = {}
 
   local url = GITHUB_API_URL .. "/rate_limit"
