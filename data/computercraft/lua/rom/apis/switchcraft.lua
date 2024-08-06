@@ -20,7 +20,7 @@ function githubLimits(key)
 end
 
 function tps()
-  local h = http.get("https://tps.ct.knijn.one")
+  local h = http.get("https://api.ct.knijn.one/tps")
   if not h then
       return 0, "Error contacting TPS API"
   end
