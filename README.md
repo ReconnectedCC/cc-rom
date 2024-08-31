@@ -1,4 +1,4 @@
-# Project Connecticut ROM
+# ReconnectedCC ROM
 
 ## Licensing information
 The following files are licensed under MIT:
