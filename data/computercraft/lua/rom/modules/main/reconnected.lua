@@ -1,4 +1,4 @@
-function tps()
+local function tps()
     local h = http.get("https://api.reconnected.cc/tps")
     if not h then
         return 0, "Error contacting TPS API"
