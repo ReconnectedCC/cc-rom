@@ -24,7 +24,7 @@ if command == "register" then
 
     license = license:gsub("%s+", "")
     settings.set("chatbox.license_key", license)
-    settings.save(".settings")
+    settings.save()
 
     print("Success!")
     print("Your chatbox license key has been changed.")
@@ -39,7 +39,7 @@ if command == "register" then
 
 elseif command == "remove" then
     settings.unset("chatbox.license_key")
-    settings.save(".settings")
+    settings.save()
     if chatbox then
         chatbox.stop()
     end
