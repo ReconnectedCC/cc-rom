@@ -213,7 +213,7 @@ local function handleClose(msg, code)
     end
 
     connectionAttempts = connectionAttempts + 1
-    if connectionAttempts => 3 then
+    if connectionAttempts >= 3 then
         printError("Could not connect to chatbox server after 3 attempts:")
         printError(string.format("%s (%s)", msg or "unknown", code or "unknown"))
         return false
