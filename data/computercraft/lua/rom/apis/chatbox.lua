@@ -4,7 +4,7 @@
 
 local expect = loadfile("/rom/modules/main/cc/expect.lua")
 
-local SERVER_URL = "wss://chat.reconnected.cc"
+local SERVER_URL = "wss://chat.reconnected.cc/v2/"
 
 local closeReasons = {
     SERVER_STOPPING = 4000,
@@ -20,6 +20,8 @@ local closeReasons = {
 local running = false
 local connected = false
 local ws
+local chatboxErrorMessage, chatboxErrorCode
+local connectionAttempts = 0
 
 -- from hello packet
 local ownerName, owner, guest
@@ -129,19 +131,25 @@ local function processData(rawData)
     end
 end
 
-function say(text, name, mode)
+local function isModeSupported(mode)
+    return mode == "format" or mode == "markdown" or format == "minimessage"
+end
+
+-- mode2 is compat, overwrites mode if truthy
+function say(text, name, mode, mode2)
     if not isConnected() or not ws then
         error("Chatbox not connected", 2)
     end
     if not hasCapability("say") then
         error("You do not have the 'say' capability", 2)
     end
+    mode = mode2 or mode
     expect(text, 1, "string")
     expect(name, 2, "string", "nil")
     expect(mode, 3, "string", "nil")
 
-    if mode and mode ~= "format" and mode ~= "markdown" then
-        error("Invalid mode. Must be either 'markdown' or 'format'", 2)
+    if not isModeSupported(mode) then
+        error("Invalid mode. Must be either 'markdown', 'format' or 'minimessage'", 2)
     end
 
     send({
@@ -150,22 +158,25 @@ function say(text, name, mode)
         name = name,
         mode = mode or "markdown"
     })
+
+    return true
 end
 
-function tell(user, text, name, mode)
+function tell(user, text, name, mode, mode2)
     if not isConnected() or not ws then
         error("Chatbox not connected", 2)
     end
     if not hasCapability("tell") then
         error("You do not have the 'tell' capability", 2)
     end
+    mode = mode2 or mode
     expect(text, 1, "string")
     expect(text, 2, "string")
     expect(name, 3, "string", "nil")
     expect(mode, 4, "string", "nil")
 
-    if mode and mode ~= "format" and mode ~= "markdown" then
-        error("Invalid mode. Must be either 'markdown' or 'format'", 2)
+    if not isModeSupported(mode) then
+        error("Invalid mode. Must be either 'markdown', 'format' or 'minimessage'", 2)
     end
 
     send({
@@ -175,6 +186,8 @@ function tell(user, text, name, mode)
         name = name,
         mode = mode or "markdown"
     })
+
+    return true
 end
 
 function stop()
@@ -184,6 +197,31 @@ function stop()
     end
 end
 
+local function handleClose(msg, code)
+    if code == closeReasons.SERVER_STOPPING then
+        return false
+    end
+
+    if code == closeReasons.UNKNOWN_LICENSE_KEY
+        or code == closeReasons.INVALID_LICENSE_KEY
+        or code == closeReasons.DISABLED_LICENSE
+        or code == closeReasons.CHANGED_LICENSE_KEY
+    then
+        printError("Chatbox error:")
+        printError(err)
+        return false
+    end
+
+    connectionAttempts = connectionAttempts + 1
+    if connectionAttempts => 3 then
+        printError("Could not connect to chatbox server after 3 attempts:")
+        printError(string.format("%s (%s)", msg or "unknown", code or "unknown"))
+        return false
+    end
+
+    return true
+end
+
 function run()
     if running then
         error("Chatbox already running", 2)
@@ -191,7 +229,7 @@ function run()
     running = true
 
     local licenseKey = getLicenseKey()
-    local wsEndpoint = SERVER_URL .. "/v2/" .. textutils.urlEncode(licenseKey)
+    local wsEndpoint = SERVER_URL .. textutils.urlEncode(licenseKey)
 
     http.websocketAsync(wsEndpoint)
 
@@ -201,15 +239,27 @@ function run()
         if ev[1] == "websocket_success" and ev[2] == wsEndpoint then
             ws = ev[3]
         elseif ev[1] == "websocket_message" and ev[2] == wsEndpoint then
-            processData(ev[3])
+            local ok, err = pcall(processData, ev[3])
+            if not ok then
+                printError("Chatbox error: " .. err)
+            end
         elseif ev[1] == "websocket_closed" and ev[2] == wsEndpoint then
-            running = false
+            local err, code = ev[3], ev[4]
+            chatboxErrorMessage, chatboxErrorCode = err, code
+            connected = false
+            local shouldRestart = handleClose(err, code)
+            if shouldRestart then
+                running = false
+                run()
+            else
+                return err ~= nil and code ~= nil, err, code
+            end
         end
     end
 end
 
 function getError()
-
+    return chatboxErrorMessage, chatboxErrorCode
 end
 
 function isConnected()
