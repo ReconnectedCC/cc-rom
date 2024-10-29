@@ -102,7 +102,12 @@ local function processData(rawData)
         capabilities = data.capabilities
         connected = true
     elseif data.type == "players" then
-        players = data.players
+        -- avoid mutating empty json array from textutils
+        if #data.players == 0 then
+            players = {}
+        else
+            players = data.players
+        end
     elseif data.type == "event" then
         local event = data.event
         if event:sub(1, 5) == "chat_" then
