@@ -1,0 +1,12 @@
+{
+  "defaultDescription": [
+    "Allow interacting with ComputerCraft Computers"
+  ],
+  "defaultVal": false,
+  "global": false,
+  "guiItem": {
+    "id": "computercraft:computer_advanced"
+  },
+  "order": 67,
+  "requiredMod": "computercraft"
+}

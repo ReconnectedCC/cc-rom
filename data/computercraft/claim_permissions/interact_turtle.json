@@ -1,0 +1,12 @@
+{
+  "defaultDescription": [
+    "Allow interacting with ComputerCraft Turtles"
+  ],
+  "defaultVal": false,
+  "global": false,
+  "guiItem": {
+    "id": "computercraft:turtle_advanced"
+  },
+  "order": 68,
+  "requiredMod": "computercraft"
+}

@@ -1,0 +1,17 @@
+{
+  "type": "flan:block_interact",
+  "values": [
+    {
+      "entry": "#computercraft:monitor",
+      "permission": "computercraft:interact_monitor"
+    },
+    {
+      "entry": "#computercraft:computer",
+      "permission": "computercraft:interact_computer"
+    },
+    {
+      "entry": "#computercraft:turtle",
+      "permission": "computercraft:interact_turtle"
+    }
+  ]
+}

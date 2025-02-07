@@ -1,0 +1,12 @@
+{
+  "defaultDescription": [
+    "Allow interacting with ComputerCraft Monitors"
+  ],
+  "defaultVal": false,
+  "global": false,
+  "guiItem": {
+    "id": "computercraft:monitor_advanced"
+  },
+  "order": 66,
+  "requiredMod": "computercraft"
+}

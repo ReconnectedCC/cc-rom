@@ -1,0 +1,8 @@
+{
+ "flan.permission.computercraft:interact_monitor": "Monitors",
+ "flan.permission.computercraft:interact_monitor.desc.0": "Allow interacting with ComputerCraft Monitors",
+ "flan.permission.computercraft:interact_computer": "Computers",
+ "flan.permission.computercraft:interact_computer.desc.0": "Allow interacting with ComputerCraft Computers",
+ "flan.permission.computercraft:interact_turtle": "Turtles",
+ "flan.permission.computercraft:interact_turtle.desc.0": "Allow interacting with ComputerCraft Turtles"
+}
