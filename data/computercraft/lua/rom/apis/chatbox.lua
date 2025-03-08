@@ -148,7 +148,7 @@ function say(text, name, mode, mode2)
     if not hasCapability("say") then
         error("You do not have the 'say' capability", 2)
     end
-    mode = mode2 or mode
+    mode = mode2 or mode or "markdown"
     expect(text, 1, "string")
     expect(name, 2, "string", "nil")
     expect(mode, 3, "string", "nil")
@@ -161,7 +161,7 @@ function say(text, name, mode, mode2)
         type = "say",
         text = text,
         name = name,
-        mode = mode or "markdown"
+        mode = mode,
     })
 
     return true
@@ -174,7 +174,7 @@ function tell(user, text, name, mode, mode2)
     if not hasCapability("tell") then
         error("You do not have the 'tell' capability", 2)
     end
-    mode = mode2 or mode
+    mode = mode2 or mode or "markdown"
     expect(text, 1, "string")
     expect(text, 2, "string")
     expect(name, 3, "string", "nil")
@@ -189,7 +189,7 @@ function tell(user, text, name, mode, mode2)
         user = user,
         text = text,
         name = name,
-        mode = mode or "markdown"
+        mode = mode,
     })
 
     return true
