@@ -137,7 +137,7 @@ local function processData(rawData)
 end
 
 local function isModeSupported(mode)
-    return mode == "format" or mode == "markdown" or format == "minimessage"
+    return mode == "format" or mode == "markdown" or mode == "minimessage"
 end
 
 -- mode2 is compat, overwrites mode if truthy
