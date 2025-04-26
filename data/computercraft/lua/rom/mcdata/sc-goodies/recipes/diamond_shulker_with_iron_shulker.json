@@ -1,0 +1,24 @@
+{
+  "type": "sc-goodies:iron_shulker",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "G": {
+      "tag": "c:glass_blocks"
+    },
+    "S": {
+      "tag": "sc-goodies:iron_shulker/iron"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "GSG",
+    "DDD"
+  ],
+  "result": {
+    "item": "sc-goodies:shulker_box_diamond"
+  },
+  "show_notification": true
+}

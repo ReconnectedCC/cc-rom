@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "fabric:type": "sc-library:brew",
+      "effect": "minecraft:jump_boost",
+      "potion": "minecraft:leaping"
+    },
+    "G": {
+      "tag": "c:gold_ingots"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "R": {
+      "tag": "c:redstone_dusts"
+    }
+  },
+  "pattern": [
+    "RGR",
+    "PBP",
+    "RGR"
+  ],
+  "result": {
+    "item": "plethora:module_kinetic"
+  },
+  "show_notification": true
+}

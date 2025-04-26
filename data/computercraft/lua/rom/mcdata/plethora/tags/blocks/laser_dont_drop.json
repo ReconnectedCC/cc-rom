@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#minecraft:tall_flowers",
+      "required": false
+    },
+    {
+      "id": "#computercraft:computer",
+      "required": false
+    },
+    {
+      "id": "#computercraft:turtle",
+      "required": false
+    }
+  ]
+}

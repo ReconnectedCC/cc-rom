@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "C": {
+      "tag": "c:cyan_dyes"
+    },
+    "D": {
+      "item": "minecraft:dispenser"
+    },
+    "I": {
+      "tag": "c:iron_ingots"
+    },
+    "K": {
+      "tag": "c:black_dyes"
+    },
+    "M": {
+      "tag": "c:magenta_dyes"
+    },
+    "Y": {
+      "tag": "c:yellow_dyes"
+    }
+  },
+  "pattern": [
+    "CMY",
+    "KDB",
+    "III"
+  ],
+  "result": {
+    "item": "sc-peripherals:ink_cartridge"
+  },
+  "show_notification": true
+}

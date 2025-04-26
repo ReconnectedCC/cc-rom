@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "fabric:type": "fabric:nbt",
+      "base": {
+        "item": "computercraft:computer_advanced"
+      },
+      "strict": true
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "I": {
+      "tag": "c:iron_ingots"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "Q": {
+      "item": "minecraft:quartz_block"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "SNS",
+    "IDI",
+    "QCQ"
+  ],
+  "result": {
+    "item": "sc-peripherals:poster_printer"
+  },
+  "show_notification": true
+}
