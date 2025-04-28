@@ -1,0 +1,16 @@
+{
+  "type": "sc-goodies:elytra",
+  "category": "equipment",
+  "group": "dyedElytra",
+  "ingredients": [
+    {
+      "tag": "sc-goodies:elytra"
+    },
+    {
+      "item": "minecraft:orange_dye"
+    }
+  ],
+  "result": {
+    "item": "sc-goodies:elytra_orange"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "tag": "c:diamonds"
+    },
+    "G": {
+      "tag": "c:gold_ingots"
+    },
+    "L": {
+      "tag": "c:glass_blocks"
+    }
+  },
+  "pattern": [
+    "LLL",
+    "DGD",
+    "LLL"
+  ],
+  "result": {
+    "item": "sc-goodies:gold_diamond_chest_upgrade"
+  },
+  "show_notification": true
+}

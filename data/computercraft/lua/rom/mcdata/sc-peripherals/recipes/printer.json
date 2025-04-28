@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "fabric:type": "fabric:nbt",
+      "base": {
+        "item": "computercraft:computer_advanced"
+      },
+      "strict": true
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    },
+    "I": {
+      "tag": "c:iron_ingots"
+    },
+    "P": {
+      "item": "minecraft:sticky_piston"
+    }
+  },
+  "pattern": [
+    "IHI",
+    "PDP",
+    "ICI"
+  ],
+  "result": {
+    "item": "sc-peripherals:printer"
+  },
+  "show_notification": true
+}
