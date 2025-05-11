@@ -1,11 +1,21 @@
+local REPASTE_ENDPOINT = "https://p.reconnected.cc"
+local REPASTE_NAME = "p.reconnected.cc"
 local SC_PASTE_ENDPOINT = "https://p.sc3.io" -- TODO
 local SC_PASTE_NAME = "p.sc3.io"
 local PASTEBIN_ENDPOINT = "https://pastebin.com"
 local PASTEBIN_NAME = "pastebin.com"
 
+local REPASTE_TOKEN = "GUEST"
+
 local PASTE_ID_PATTERNS = {
   -- Raw ID
   "^([%a%d]+)$",
+  
+  -- rePaste
+  "^https?://p.reconnected.cc/([%a%d]+)$",
+  "^p.reconnected.cc/([%a%d]+)$",
+  "^https?://p.reconnected.cc/raw/([%a%d]+)$",
+  "^p.reconnected.cc/raw/([%a%d]+)$",
 
   -- SCPaste
   "^https?://p.sc3.io/([%a%d]+)$",
@@ -59,6 +69,8 @@ local function extractRawUrl(paste)
       local encoded = textutils.urlEncode(code)
       if #code == 8 then
         return PASTEBIN_ENDPOINT .. "/raw/" .. encoded, code, PASTEBIN_NAME
+	  elseif #code == 9 then
+        return REPASTE_ENDPOINT .. "/raw/" .. encoded, code, REPASTE_NAME
       else
         return SC_PASTE_ENDPOINT .. "/api/v1/pastes/" .. encoded .. "/raw",
           code, SC_PASTE_NAME
@@ -82,12 +94,12 @@ local function get(url)
   local rawUrl, paste, siteName = extractRawUrl(url)
   if not rawUrl then
     io.stderr:write("Invalid paste code.\n")
-    io.write("The code is the ID at the end of the p.sc3.io or pastebin.com URL.\n")
+    io.write("The code is the ID at the end of the p.reconnected.cc, p.sc3.io or pastebin.com URL.\n")
     return
   end
 
   writeCol(colors.lightGray, "Connecting to ")
-  writeCol(siteName == "p.sc3.io" and colors.lime or colors.yellow, siteName)
+  writeCol(siteName == "p.reconnected.cc" and colors.lime or colors.yellow, siteName)
   writeCol(colors.lightGray, "... ")
 
   -- Add a cache buster so that Pastebin spam protection is re-checked
@@ -124,7 +136,7 @@ end
 
 local sCommand = tArgs[1]
 if sCommand == "put" then
-  -- Upload a file to SCPaste
+  -- Upload a file to rePaste
   -- Determine file to upload
   local sFile = tArgs[2]
   local sPath = shell.resolve(sFile)
@@ -144,8 +156,8 @@ if sCommand == "put" then
   print(("\140"):rep(w))
   write("New! ")
   term.setTextColor(colors.white)
-  write("Pastes made on SwitchCraft will be uploaded to our paste site, ")
-  writeCol(term.isColor() and colors.lime or colors.white, "SCPaste")
+  write("Pastes made on ReconnectedCC will be uploaded to our paste site, ")
+  writeCol(term.isColor() and colors.lime or colors.white, "rePaste")
   term.setTextColor(colors.white)
   print(". ")
   term.setTextColor(colors.yellow)
@@ -153,26 +165,33 @@ if sCommand == "put" then
 
   -- POST the contents to pastebin
   writeCol(colors.lightGray, "Connecting to ")
-  writeCol(colors.lime, SC_PASTE_NAME)
+  writeCol(colors.lime, REPASTE_NAME)
   writeCol(colors.lightGray, "... ")
 
   local response, err, errResponse = http.post(
-    SC_PASTE_ENDPOINT .. "/api/v1/pastes" ..
-    "?language=lua" ..
-    "&name=" .. textutils.urlEncode(sName),
-    sText,
-    { ["Content-Type"] = "text/plain" }
+    REPASTE_ENDPOINT .. "/api/v3/paste",
+	textutils.serializeJSON({
+	  title = sName,
+	  syntaxName = "lua",
+	  asGuest = true,
+	  content = sText,
+	}),
+	{
+	  ["Content-Type"] = "application/json",
+	  ["Authorization"] = REPASTE_TOKEN,
+	}
   )
 
   if response then
     writeCol(colors.lime, "Success.\n")
     term.setTextColor(colors.white)
 
-    local sCode = response.readAll()
+    local result = textutils.unserializeJSON(response.readAll())
+    local sCode = result.code
     response.close()
 
     writeCol(colors.white, "Uploaded as ")
-    writeCol(colors.blue, SC_PASTE_ENDPOINT .. "/" .. textutils.urlEncode(sCode) .. "\n")
+    writeCol(colors.blue, REPASTE_ENDPOINT .. "/" .. textutils.urlEncode(sCode) .. "\n")
     writeCol(colors.white, "Run \"")
     writeCol(colors.blue, "pastebin get " .. sCode)
     writeCol(colors.white, "\" to download anywhere\n")
