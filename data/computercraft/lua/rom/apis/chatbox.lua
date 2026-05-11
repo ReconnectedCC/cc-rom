@@ -133,6 +133,10 @@ local function processData(rawData)
             local username = data.user.name or data.user.uuid
             os.queueEvent("world_change", username, data.origin, data.destination, data)
         end
+	elseif data.type == "ping" then
+		send({
+	        type = "ping",
+	    })
     end
 end
 
