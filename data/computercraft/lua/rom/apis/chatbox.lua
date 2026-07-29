@@ -74,7 +74,7 @@ local function emitChatEvents(data)
             if data.discordUser.discriminator == "0000" then
                 name = data.discordUser.name
             else
-                name = data.discoUser.name .. "#" .. data.discordUser.discriminator
+                name = data.discordUser.name .. "#" .. data.discordUser.discriminator
             end
         else
             name = tostring(data.discordUser.id)
@@ -132,6 +132,18 @@ local function processData(rawData)
             updatePlayer(data.user)
             local username = data.user.name or data.user.uuid
             os.queueEvent("world_change", username, data.origin, data.destination, data)
+        elseif event == "afk" then
+            updatePlayer(data.user)
+            local username = data.user.name or data.user.uuid
+            os.queueEvent("afk", username, data)
+        elseif event == "afk_return" then
+            updatePlayer(data.user)
+            local username = data.user.name or data.user.uuid
+            os.queueEvent("afk_return", username, data)
+        elseif event == "server_restart_scheduled" then
+            os.queueEvent("server_restart_scheduled", data.restartType,data.restartSeconds,data)
+        elseif event == "server_restart_cancelled" then
+            os.queueEvent("server_restart_cancelled", data.restartType,data)
         end
 	elseif data.type == "ping" then
 		send({
@@ -179,7 +191,7 @@ function tell(user, text, name, mode, mode2)
         error("You do not have the 'tell' capability", 2)
     end
     mode = mode2 or mode or "markdown"
-    expect(text, 1, "string")
+    expect(user, 1, "string")
     expect(text, 2, "string")
     expect(name, 3, "string", "nil")
     expect(mode, 4, "string", "nil")
